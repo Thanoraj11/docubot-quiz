@@ -26,7 +26,7 @@ question_rules = "Question Rule 1: Do not ask questions about very small details
 answer_rules = "Feedback Rule 1: If my response is correct, you give feedback and then move on to the next question (Step 1 again).\nFeedback Rule 2: If the answer is incorrect or only partly correct, you give feedback that helps me move toward the correct answer. After your feedback, say something in the style of 'try again'.\nFeedback Rule 3: It is very important that you dont give away the correct answer in the feedback to partly correct or incorrect responses."
 template = ("We have provided context information below. \n"
     "---------------------\n"
-    "{context_str}"
+    f"{question_rules}"
     "\n---------------------\n"
     "Given this information, please answer the question: {query_str}\n"
     )

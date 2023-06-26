@@ -47,7 +47,7 @@ def process_pdf(uploaded_file):
         index = GPTVectorStoreIndex.from_documents(documents,service_context=service_context)
         query_engine = index.as_chat_engine(verbose=True, text_qa_template=QA_TEMPLATE )
         response = query_engine.chat("start")
-        st.write(response)
+        st.write(response.response)
         st.session_state.index = query_engine
     # st.session_state.index = index
     return st.session_state.index

@@ -24,10 +24,10 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 question_rules = "Question Rule 1: Do not ask questions about very small details such as specific numbers.\nQuestion Rule 2: When you run out of questions, let me know this and then quiz me on the questions I've already responded to. Present the questions one at a time in random order."
 answer_rules = "Feedback Rule 1: If my response is correct, you give feedback and then move on to the next question (Step 1 again).\nFeedback Rule 2: If the answer is incorrect or only partly correct, you give feedback that helps me move toward the correct answer. After your feedback, say something in the style of 'try again'.\nFeedback Rule 3: It is very important that you dont give away the correct answer in the feedback to partly correct or incorrect responses."
+context_str = question_rules+answer_rules
 template = ("When I send the message 'start', I want you to be my tutor and teach me about the content by asking me questions about it and providing me with feedback on the answers I give to your questions.\nWe will do this in a loop with the following steps:\n(1) You ask me a question about the text\n(2) I respond to your question\n(3) You give me feedback on my response.\n"
     "---------------------\n"
-    f"{question_rules}"
-    f"{answer_rules}"
+    f"{context_str}"
     "\n---------------------\n"
     "All information given above, Generate answer for the current query : {query_str}\n"
     )

@@ -68,5 +68,5 @@ query = st.text_input("Enter query prompt")
 asl = st.button("Submit")
 
 if asl:
-    resp  = st.session_state.index.query(query).response
+    resp  = st.session_state.index.chat(query).response
     st.write(resp)

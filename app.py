@@ -45,8 +45,8 @@ def process_pdf(uploaded_file):
     
     if "index" not in st.session_state:
         index = GPTVectorStoreIndex.from_documents(documents,service_context=service_context)
-        query_engine = index.as_chat_engine(verbose=True)
-        response = query_engine.chat(template)
+        query_engine = index.as_chat_engine(verbose=True, text_qa_template=QA_TEMPLATE )
+        response = query_engine.chat("start")
         st.write(response)
         st.session_state.index = query_engine
     # st.session_state.index = index

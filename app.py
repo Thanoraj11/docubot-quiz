@@ -16,7 +16,7 @@ from llama_index.retrievers import VectorIndexRetriever
 from llama_index.query_engine import RetrieverQueryEngine
 PDFReader = download_loader("PDFReader")
 
-from llama_index import prompt
+from llama_index import Prompt
 
 # loader = PDFReader()
 

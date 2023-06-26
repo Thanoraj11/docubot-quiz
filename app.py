@@ -9,7 +9,8 @@ from langchain import OpenAI
 from tempfile import NamedTemporaryFile
 from llama_index import download_loader
 
-
+import openai
+import os
 from pathlib import Path
 from llama_index.retrievers import VectorIndexRetriever
 from llama_index.query_engine import RetrieverQueryEngine
@@ -56,4 +57,4 @@ asl = st.button("Submit")
 
 if asl:
     resp  = st.session_state.index.query(query).response
-    st.write()
+    st.write(resp)

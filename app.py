@@ -29,7 +29,7 @@ template = ("We have provided context information below. \n"
     f"{question_rules}"
     f"{answer_rules}"
     "\n---------------------\n"
-    f"Given this information, please answer the question: {query_str}\n"
+    "Given this information, please answer the question: {query_str}\n"
     )
 
 QA_TEMPLATE = Prompt(template)

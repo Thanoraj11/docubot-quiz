@@ -16,11 +16,23 @@ from llama_index.retrievers import VectorIndexRetriever
 from llama_index.query_engine import RetrieverQueryEngine
 PDFReader = download_loader("PDFReader")
 
+from llama_index import prompt
+
 # loader = PDFReader()
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+question_rules = "Question Rule 1: Do not ask questions about very small details such as specific numbers.\nQuestion Rule 2: When you run out of questions, let me know this and then quiz me on the questions I've already responded to. Present the questions one at a time in random order."
+answer_rules = "Feedback Rule 1: If my response is correct, you give feedback and then move on to the next question (Step 1 again).\nFeedback Rule 2: If the answer is incorrect or only partly correct, you give feedback that helps me move toward the correct answer. After your feedback, say something in the style of 'try again'.\nFeedback Rule 3: It is very important that you dont give away the correct answer in the feedback to partly correct or incorrect responses."
+template = ("We have provided context information below. \n"
+    "---------------------\n"
+    f"{question_rules}"
+    f"{answer_rules}"
+    "\n---------------------\n"
+    f"Given this information, please answer the question: {query_str}\n"
+    )
 
+QA_TEMPLATE = Prompt(template)
 
 
 def process_pdf(uploaded_file):
@@ -34,9 +46,8 @@ def process_pdf(uploaded_file):
     
     if "index" not in st.session_state:
         index = GPTVectorStoreIndex.from_documents(documents,service_context=service_context)
-        retriever = index.as_retriever(retriever_mode='embedding')
-        index = RetrieverQueryEngine(retriever)
-        st.session_state.index = index
+        query_engine = index.as_query_engine(text_qa_template=QA_TEMPLATE)
+        st.session_state.index = query_engine
     # st.session_state.index = index
     return st.session_state.index
 

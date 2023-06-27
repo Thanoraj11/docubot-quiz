@@ -46,10 +46,9 @@ def process_pdf(uploaded_file):
     if "index" not in st.session_state:
         index = GPTVectorStoreIndex.from_documents(documents,service_context=service_context)
         custom_prompt = Prompt("""\
-Given a conversation (between Human and Assistant) and a follow up message from Human, \
+Given a conversation (between learner and tutor) and a follow up message from learner, \
 rewrite the message to be a standalone question that captures all relevant context \
 from the conversation.
-
 <Chat History> 
 {chat_history}
 
@@ -59,10 +58,9 @@ from the conversation.
 <Standalone question>
 """)
 
-# list of (human_message, ai_message) tuples
         custom_chat_history = [
             (
-                'Hello assistant, we are having a insightful discussion about Paul Graham today.', 
+                'When I send the message "start", I want you to be my tutor and teach me about the content by asking me questions about it and providing me with feedback on the answers I give to your questions.\nWe will do this in a loop with the following steps:\n(1) You ask me a question about the text\n(2) I respond to your question\n(3) You give me feedback on my response.\n', 
                 'Okay, sounds good.'
             )
         ]

@@ -60,7 +60,7 @@ from the conversation.
 
         custom_chat_history = [
             (
-                'When I send the message "start", I want you to be my tutor and teach me about the content by asking me questions about it and providing me with feedback on the answers I give to your questions.\nWe will do this in a loop with the following steps:\n(1) You ask me a question about the text\n(2) I respond to your question\n(3) You give me feedback on my response.\n', 
+                'I want you to be my tutor and teach me about the content by asking me questions about it and providing me with feedback on the answers I give to your questions.\nWe will do this in a loop with the following steps:\n(1) You ask me a question about the text\n(2) I respond to your question\n(3) You give me feedback on my response.\nWhen I send the message "start", You can start asking me questions', 
                 'Okay, sounds good.'
             )
         ]

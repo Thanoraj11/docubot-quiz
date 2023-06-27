@@ -12,7 +12,7 @@ import openai
 import os
 from pathlib import Path
 from llama_index.retrievers import VectorIndexRetriever
-from llama_index.query_engine import RetrieverQueryEngine
+from llama_index.query_engine import CondenseQuestionChatEngine
 PDFReader = download_loader("PDFReader")
 
 from llama_index import Prompt
@@ -45,10 +45,38 @@ def process_pdf(uploaded_file):
     
     if "index" not in st.session_state:
         index = GPTVectorStoreIndex.from_documents(documents,service_context=service_context)
-        query_engine = index.as_chat_engine(chat_mode='react',verbose=True)
-        response = query_engine.chat("Use the tool to answer:What is this")
-        st.write(response.response)
-        st.session_state.index = query_engine
+        custom_prompt = Prompt("""\
+Given a conversation (between Human and Assistant) and a follow up message from Human, \
+rewrite the message to be a standalone question that captures all relevant context \
+from the conversation.
+
+<Chat History> 
+{chat_history}
+
+<Follow Up Message>
+{question}
+
+<Standalone question>
+""")
+
+# list of (human_message, ai_message) tuples
+        custom_chat_history = [
+            (
+                'Hello assistant, we are having a insightful discussion about Paul Graham today.', 
+                'Okay, sounds good.'
+            )
+        ]
+
+        query_engine = index.as_query_engine()
+        chat_engine = CondenseQuestionChatEngine.from_defaults(
+            query_engine=query_engine, 
+            condense_question_prompt=custom_prompt,
+            chat_history=custom_chat_history,
+            verbose=True
+        )
+        response = chat_engine.chat("Who is that?").response
+        st.write(response)
+        st.session_state.index = chat_engine
     # st.session_state.index = index
     return st.session_state.index
 

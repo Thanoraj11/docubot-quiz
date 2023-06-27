@@ -67,16 +67,21 @@ from the conversation.
             )
         ]
 
-        query_engine = index.as_query_engine()
-        chat_engine = CondenseQuestionChatEngine.from_defaults(
+        query_engine = index.as_chat_engine(
+            chat_mode='condense_question',
             query_engine=query_engine, 
             condense_question_prompt=custom_prompt,
             chat_history=custom_chat_history,
-            verbose=True
-        )
-        response = chat_engine.chat("Who is that?").response
+            verbose=True)
+        # chat_engine = CondenseQuestionChatEngine.from_defaults(
+        #     query_engine=query_engine, 
+        #     condense_question_prompt=custom_prompt,
+        #     chat_history=custom_chat_history,
+        #     verbose=True
+        # )
+        response = query_engine.chat("Who is that?").response
         st.write(response)
-        st.session_state.index = chat_engine
+        st.session_state.index = query_engine
     # st.session_state.index = index
     return st.session_state.index
 

@@ -69,7 +69,6 @@ from the conversation.
 
         query_engine = index.as_chat_engine(
             chat_mode='condense_question',
-            query_engine=query_engine, 
             condense_question_prompt=custom_prompt,
             chat_history=custom_chat_history,
             verbose=True)

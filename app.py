@@ -76,7 +76,7 @@ from the conversation.
         #     chat_history=custom_chat_history,
         #     verbose=True
         # )
-        response = query_engine.chat("Who is that?").response
+        response = query_engine.chat("start").response
         st.write(response)
         st.session_state.index = query_engine
     # st.session_state.index = index

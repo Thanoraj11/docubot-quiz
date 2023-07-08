@@ -74,7 +74,7 @@ class TutorAgent:
         keywords = message.message.content.split('\n')  # Assuming the model returns a newline-separated list
         return keywords
 
-    def generate_question_answer(self, keyword: str) -> (str, str):
+    def generate_question_answer(self, keyword: str):
         self.reset()
         message = self._llm.chat([ChatMessage(role="system", content=f"Generate a question about the topic: {keyword} with the answer separated by a newline.")])
         question, expected_answer = message.message.content.split('\n')  # Assuming the model returns question and answer separated by a newline
@@ -84,7 +84,7 @@ class TutorAgent:
         self.expected_answer = expected_answer
         return question, expected_answer
 
-    def give_feedback(self, user_answer: str) -> (str, float):
+    def give_feedback(self, user_answer: str):
         self._chat_history.append(ChatMessage(role="user", content=user_answer))
 
         feedback_instructions = """
@@ -116,3 +116,79 @@ try:
     tutor = TutorAgent()
 
     st.title("AI Tutor")
+
+
+
+
+
+
+
+# text = st.text_area("Input text for learning:", "Enter text here...")
+
+# if "keywords" not in st.session_state:
+#     st.session_state.keywords = []
+
+
+# if st.button("Index topics"):
+
+    uploaded_file = st.file_uploader("Upload a PDF file", type="pdf")
+    if uploaded_file is not None:
+        # if "index" not in st.session_state:
+        st.session_state.index = process_pdf(uploaded_file)
+    res  = st.session_state.index.query("Please list 10 keywords or topics from the document").response
+    keywords = res.split('\n')
+        # st.success("Index created successfully")
+    # keywords = tutor.extract_keywords(text)
+    st.session_state.keywords = keywords
+
+
+
+    # if "selected_keywords" not in st.session_state:
+    #     st.session_state.selected_keywords
+
+    st.session_state.selected_keywords = st.multiselect('Select topics for questions', st.session_state.keywords)
+
+    if st.button("Start learning Session"):
+        current_keyword = st.session_state.selected_keywords.pop(0)
+        question, _ = tutor.generate_question_answer(current_keyword)
+        st.write("Question: ", question)
+        st.write("Provide your answer and press 'Submit Answer' when ready.")
+    else:
+        st.write("Please select at least one topic.")
+
+
+
+
+
+
+
+    answer = st.text_input("Your answer:")
+    if st.button("Submit Answer"):
+        feedback, score = tutor.give_feedback(answer)
+        st.write("Feedback: ", feedback)
+
+        if score < tutor.score_threshold:  # if answer is incorrect or partially correct
+            # generate subtopic from current_keyword and add it to st.session_state.selected_keywords
+            subtopic = tutor.extract_keywords(feedback)  # This should ideally be a more sophisticated subtopic generation, but we'll use keyword extraction for simplicity.
+            st.session_state.selected_keywords.insert(0, subtopic[0])  # Insert the first keyword as a subtopic
+        elif st.session_state.selected_keywords:  # if there are still st.session_state.selected_keywords left
+            st.session_state.selected_keywords.pop(0)  # remove the current keyword
+
+        if st.session_state.selected_keywords:
+            current_keyword = st.session_state.selected_keywords[0]
+            question, _ = tutor.generate_question_answer(current_keyword)
+            st.write("Next question: ", question)
+        else:
+            st.write("You have completed all the selected topics. Well done!")
+
+    # Display chat history on sidebar
+    st.sidebar.header("Chat History")
+    for message in tutor._chat_history:
+        if message.role == 'system':
+            st.sidebar.markdown(f"**System**: {message.content}")
+        else:
+            st.sidebar.markdown(f"**You**: {message.content}")
+
+
+except (AttributeError):
+    print("Error")

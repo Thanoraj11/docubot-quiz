@@ -122,7 +122,8 @@ tutor = TutorAgent()
 
 st.title("AI Tutor")
 
-
+if "currentKeyword" not in st.session_state:
+    st.session_state.currentKeyword = 1
 
 
 
@@ -188,10 +189,11 @@ if st.button("Submit Answer"):
         st.write(selected_keywords)
     elif selected_keywords:  # if there are still selected_keywords left
         st.write(selected_keywords)
+        st.session_state.currentKeyword += 1
         selected_keywords.pop(0)  # remove the current keyword
 
     if selected_keywords:
-        current_keyword = selected_keywords[2]
+        current_keyword = selected_keywords[st.session_state.currentKeyword]
         question, _ = tutor.generate_question_answer(current_keyword)
         st.write("Next question: ", question)
         st.write("current_keyword", current_keyword)

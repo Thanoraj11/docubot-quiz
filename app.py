@@ -111,7 +111,7 @@ class TutorAgent:
         """
         message = self._llm.chat([ChatMessage(role="system", content=Prompt)])
         score = message.message.content
-        st.write(score)
+        #st.write(score)
         return score
 
 

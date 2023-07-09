@@ -76,8 +76,8 @@ class TutorAgent:
         # st.write(question)
         # st.write(expected_answer)
 
-        self.expected_answer = responses[1]
-        return responses[0]
+        #self.expected_answer = responses[1]
+        return responses
 
     def give_feedback(self, user_answer: str):
         self._chat_history.append(ChatMessage(role="user", content=user_answer))

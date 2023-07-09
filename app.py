@@ -162,7 +162,7 @@ if uploaded_file is not None:
 if st.button("Start learning Session"):
     current_keyword = selected_keywords.pop(0)
     question = tutor.generate_question_answer(current_keyword)
-    st.write("Question: ", question)
+    st.write("Question: ", question[1])
     st.write("Provide your answer and press 'Submit Answer' when ready.")
     st.write("current_keyword")
 

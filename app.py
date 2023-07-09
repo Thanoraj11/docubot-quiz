@@ -101,7 +101,7 @@ class TutorAgent:
         return feedback, int(score)
 
     def get_score(self, user_answer: str, expected_answer: str) -> float:
-
+        self.reset()
         Prompt = """
         evaluate on a general understanding of how well the user's answer aligns with the expected answer.
         In a simple format, I could use a scale of 1-10 where 1 signifies no alignment with the expected answer and 10 signifies perfect alignment.

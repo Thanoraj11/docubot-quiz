@@ -190,7 +190,7 @@ if st.button("Submit Answer"):
     elif selected_keywords:  # if there are still selected_keywords left
         st.write(selected_keywords)
         st.session_state.currentKeyword += 1
-        selected_keywords.pop(0)  # remove the current keyword
+        #selected_keywords.pop(0)  # remove the current keyword
 
     if selected_keywords:
         current_keyword = selected_keywords[st.session_state.currentKeyword]

@@ -182,6 +182,8 @@ if st.button("Submit Answer"):
         current_keyword = selected_keywords[2]
         question, _ = tutor.generate_question_answer(current_keyword)
         st.write("Next question: ", question)
+        st.write("current_keyword", current_keyword)
+
     else:
         st.write("You have completed all the selected topics. Well done!")
 

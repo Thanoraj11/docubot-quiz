@@ -56,7 +56,7 @@ class TutorAgent:
     def __init__(self, chat_history: List[ChatMessage] = []):
         self._llm = llm
         self._chat_history = chat_history
-        self.score_threshold = 0.7  # adjust this as per your requirements
+        self.score_threshold = 7  # adjust this as per your requirements
         self.expected_answer = ""  # Initialize expected_answer attribute
 
     def reset(self):
@@ -98,7 +98,7 @@ class TutorAgent:
         feedback = message.message.content
 
         score = self.get_score(user_answer, self.expected_answer)
-        return feedback, score
+        return feedback, int(score)
 
     def get_score(self, user_answer: str, expected_answer: str) -> float:
 

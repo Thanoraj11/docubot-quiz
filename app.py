@@ -196,7 +196,7 @@ if st.button("Submit Answer"):
 
     if selected_keywords:
         st.write(st.session_state.currentKeyword)
-        current_keyword = selected_keywords[1]
+        current_keyword = selected_keywords[2]
         st.write("current_keyword", current_keyword)
 
         question = tutor.generate_question_answer(current_keyword)

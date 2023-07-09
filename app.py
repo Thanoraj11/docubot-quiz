@@ -195,7 +195,7 @@ if st.button("Submit Answer"):
 
 
     if selected_keywords:
-        st.write(st.session_state.currentKeyword)
+        st.write(selected_keywords)
         current_keyword = selected_keywords[2]
         st.write("current_keyword", current_keyword)
 

@@ -8,8 +8,6 @@ from llama_index import (
     GPTVectorStoreIndex, Document, SimpleDirectoryReader,
     QuestionAnswerPrompt, LLMPredictor, ServiceContext
 )
-
-
 # from langchain import OpenAI
 from tempfile import NamedTemporaryFile
 from llama_index import download_loader
@@ -52,10 +50,6 @@ def process_pdf(uploaded_file):
         st.session_state.index = query_engine
     # st.session_state.index = index
     return st.session_state.index
-
-
-
-
 
 
 class TutorAgent:
@@ -151,7 +145,7 @@ if uploaded_file is not None:
 # if "selected_keywords" not in st.session_state:
 #     selected_keywords
 
-    selected_keywords = st.multiselect('Select topics for questions',keywords, default=keywords[1])
+    selected_keywords = st.multiselect('Select topics for questions',keywords, default=keywords[1:])
 
 if st.button("Start learning Session"):
     current_keyword = selected_keywords.pop(0)

@@ -189,12 +189,14 @@ if st.button("Submit Answer"):
         st.write(selected_keywords)
     elif selected_keywords:  # if there are still selected_keywords left
         st.write(selected_keywords)
+        for i in range(st.session_state.currentKeyword):
+            selected_keywords.pop(0)  # remove the current keyword
         st.session_state.currentKeyword += 1
-        selected_keywords.pop(0)  # remove the current keyword
+
 
     if selected_keywords:
         st.write(st.session_state.currentKeyword)
-        current_keyword = selected_keywords[2]
+        current_keyword = selected_keywords[1]
         st.write("current_keyword", current_keyword)
 
         question = tutor.generate_question_answer(current_keyword)

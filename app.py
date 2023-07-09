@@ -187,6 +187,7 @@ if st.button("Submit Answer"):
         st.write(subtopic)
         st.write(selected_keywords)
     elif selected_keywords:  # if there are still selected_keywords left
+        st.write(selected_keywords)
         selected_keywords.pop(0)  # remove the current keyword
 
     if selected_keywords:

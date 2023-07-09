@@ -101,7 +101,18 @@ class TutorAgent:
         return feedback, score
 
     def get_score(self, user_answer: str, expected_answer: str) -> float:
-        return sentence_bleu([expected_answer.split()], user_answer.split())
+
+        Prompt = """
+        evaluate on a general understanding of how well the user's answer aligns with the expected answer.
+        In a simple format, I could use a scale of 1-10 where 1 signifies no alignment with the expected answer and 10 signifies perfect alignment.
+        Return only a number between 1 and 10 in the response.
+        Expected answer: {expected_answer}
+        User's answer: {user_answer}
+        """
+        message = self._llm.chat([ChatMessage(role="system", content=Prompt)])
+        score = message.message.content
+        st.write(score)
+        return score
 
 
 

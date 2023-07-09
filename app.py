@@ -171,6 +171,8 @@ if st.button("Submit Answer"):
         # generate subtopic from current_keyword and add it to selected_keywords
         subtopic = tutor.extract_keywords(feedback)  # This should ideally be a more sophisticated subtopic generation, but we'll use keyword extraction for simplicity.
         selected_keywords.insert(0, subtopic[0])  # Insert the first keyword as a subtopic
+        st.write(subtopic)
+        st.write(selected_keywords)
     elif selected_keywords:  # if there are still selected_keywords left
         selected_keywords.pop(0)  # remove the current keyword
 

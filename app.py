@@ -164,6 +164,7 @@ else:
 answer = st.text_input("Your answer:")
 if st.button("Submit Answer"):
     feedback, score = tutor.give_feedback(answer)
+    st.write(score)
     st.write("Feedback: ", feedback)
 
     if score < tutor.score_threshold:  # if answer is incorrect or partially correct

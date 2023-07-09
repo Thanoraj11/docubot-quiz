@@ -72,12 +72,12 @@ class TutorAgent:
         self.reset()
         message = self._llm.chat([ChatMessage(role="system", content=f"Generate a question about the topic: {keyword} with the answer separated by a newline.")])
         
-        question, expected_answer = message.message.content.split('\n')  # Assuming the model returns question and answer separated by a newline
+        responses = message.message.content.split('\n')  # Assuming the model returns question and answer separated by a newline
         # st.write(question)
         # st.write(expected_answer)
 
-        self.expected_answer = expected_answer
-        return question
+        self.expected_answer = responses[1]
+        return responses[0]
 
     def give_feedback(self, user_answer: str):
         self._chat_history.append(ChatMessage(role="user", content=user_answer))

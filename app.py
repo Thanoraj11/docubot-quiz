@@ -175,7 +175,7 @@ if st.button("Submit Answer"):
         selected_keywords.pop(0)  # remove the current keyword
 
     if selected_keywords:
-        current_keyword = selected_keywords[1]
+        current_keyword = selected_keywords[2]
         question, _ = tutor.generate_question_answer(current_keyword)
         st.write("Next question: ", question)
     else:

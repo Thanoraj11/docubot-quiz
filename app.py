@@ -71,6 +71,7 @@ class TutorAgent:
     def generate_question_answer(self, keyword: str):
         self.reset()
         message = self._llm.chat([ChatMessage(role="system", content=f"Generate a question about the topic: {keyword} with the answer separated by a newline.")])
+        
         question, expected_answer = message.message.content.split('\n')  # Assuming the model returns question and answer separated by a newline
         # st.write(question)
         # st.write(expected_answer)
@@ -161,10 +162,10 @@ if uploaded_file is not None:
 
 if st.button("Start learning Session"):
     current_keyword = selected_keywords.pop(0)
-    question, _ = tutor.generate_question_answer(current_keyword)
+    question, correct_answer = tutor.generate_question_answer(current_keyword)
     st.write("Question: ", question)
     st.write("Provide your answer and press 'Submit Answer' when ready.")
-    st.write("current_keyword", current_keyword)
+    st.write("current_keyword", correct_answer)
 
 else:
     st.write("Please select at least one topic.")
@@ -197,7 +198,7 @@ if st.button("Submit Answer"):
         current_keyword = selected_keywords[int(st.session_state.currentKeyword)]
         st.write("current_keyword", current_keyword)
 
-        question, _ = tutor.generate_question_answer(current_keyword)
+        question, correct_answer = tutor.generate_question_answer(current_keyword)
         st.write("Next question: ", question)
         st.write("current_keyword", current_keyword)
 

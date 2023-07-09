@@ -164,7 +164,7 @@ if st.button("Start learning Session"):
     question = tutor.generate_question_answer(current_keyword)
     st.write("Question: ", question)
     st.write("Provide your answer and press 'Submit Answer' when ready.")
-    st.write("current_keyword")
+    #st.write("current_keyword")
 
 else:
     st.write("Please select at least one topic.")
@@ -178,30 +178,30 @@ else:
 answer = st.text_input("Your answer:")
 if st.button("Submit Answer"):
     feedback, score = tutor.give_feedback(answer)
-    st.write(score)
+    #st.write(score)
     st.write("Feedback: ", feedback)
 
     if score < tutor.score_threshold:  # if answer is incorrect or partially correct
         # generate subtopic from current_keyword and add it to selected_keywords
         subtopic = tutor.extract_keywords(feedback)  # This should ideally be a more sophisticated subtopic generation, but we'll use keyword extraction for simplicity.
         selected_keywords.insert(0, subtopic[0])  # Insert the first keyword as a subtopic
-        st.write(subtopic)
-        st.write(selected_keywords)
+        #st.write(subtopic)
+        #st.write(selected_keywords)
     elif selected_keywords:  # if there are still selected_keywords left
-        st.write(selected_keywords)
+        #st.write(selected_keywords)
         #for i in range(st.session_state.currentKeyword):
         selected_keywords  = selected_keywords[st.session_state.currentKeyword:] # remove the current keyword
         st.session_state.currentKeyword += 1
 
 
     if selected_keywords:
-        st.write(selected_keywords)
+        #st.write(selected_keywords)
         current_keyword = selected_keywords[0]
-        st.write("current_keyword", current_keyword)
+        #st.write("current_keyword", current_keyword)
 
         question = tutor.generate_question_answer(current_keyword)
         st.write("Next question: ", question)
-        st.write("current_keyword", current_keyword)
+        #st.write("current_keyword", current_keyword)
 
     else:
         st.write("You have completed all the selected topics. Well done!")

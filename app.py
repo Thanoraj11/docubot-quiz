@@ -77,7 +77,7 @@ class TutorAgent:
         # st.write(expected_answer)
 
         self.expected_answer = expected_answer
-        return question, expected_answer
+        return question
 
     def give_feedback(self, user_answer: str):
         self._chat_history.append(ChatMessage(role="user", content=user_answer))
@@ -162,10 +162,10 @@ if uploaded_file is not None:
 
 if st.button("Start learning Session"):
     current_keyword = selected_keywords.pop(0)
-    question, correct_answer = tutor.generate_question_answer(current_keyword)
+    question = tutor.generate_question_answer(current_keyword)
     st.write("Question: ", question)
     st.write("Provide your answer and press 'Submit Answer' when ready.")
-    st.write("current_keyword", correct_answer)
+    st.write("current_keyword")
 
 else:
     st.write("Please select at least one topic.")
@@ -198,7 +198,7 @@ if st.button("Submit Answer"):
         current_keyword = selected_keywords[2]
         st.write("current_keyword", current_keyword)
 
-        question, _ = tutor.generate_question_answer(current_keyword)
+        question = tutor.generate_question_answer(current_keyword)
         st.write("Next question: ", question)
         st.write("current_keyword", current_keyword)
 

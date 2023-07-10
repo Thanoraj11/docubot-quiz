@@ -58,7 +58,7 @@ def save_chat_history(chat_history):
 def load_chat_history():
     try:
         with open('chat_history.json', 'r') as f:
-            return json.load(f)
+            return f
     except FileNotFoundError:
         return {}
 

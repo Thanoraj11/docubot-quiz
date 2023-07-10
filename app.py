@@ -131,7 +131,7 @@ if st.button("Start learning Session") :
 # Previous messages
     for i in range(st.session_state.currentKeyword):
         with st.expander(f"Question {i+1}"):
-            st.write(st.session_state[f"Q{i}"])
+            st.write(st.session_state[f"Q{i+1}"])
             if f"A{i}" in st.session_state:
                 st.write(f"Your answer: {st.session_state[f'A{i}']}")
             if f"F{i}" in st.session_state:

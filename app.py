@@ -119,6 +119,7 @@ if "currentKeyword" not in st.session_state:
 
 if st.button("Start learning Session") :
     current_keyword = st.session_state.keywords[st.session_state.currentKeyword]
+    st.sidebar.write(current_keyword)
     question = tutor.generate_question_answer(current_keyword)
     st.session_state[f"Q{st.session_state.currentKeyword}"] = question
 

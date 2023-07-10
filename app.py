@@ -127,7 +127,7 @@ if "Q{st.session_state.currentKeyword}" in st.session_state:
         st.write(st.session_state[f"Q{st.session_state.currentKeyword}"])
 
 # Previous messages
-for i in range(st.session_state.currentKeyword+1):
+for i in range(st.session_state.currentKeyword):
     with st.expander(f"Question {i+1}"):
         st.write(st.session_state[f"Q{i}"])
         if f"A{i}" in st.session_state:

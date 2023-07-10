@@ -127,13 +127,13 @@ if "Q{st.session_state.currentKeyword}" in st.session_state:
         st.write(st.session_state[f"Q{st.session_state.currentKeyword}"])
 
 # Previous messages
-for i in range(st.session_state.currentKeyword):
-    with st.expander(f"Question {i+1}"):
-        st.write(st.session_state[f"Q{i}"])
-        if f"A{i}" in st.session_state:
-            st.write(f"Your answer: {st.session_state[f'A{i}']}")
-        if f"F{i}" in st.session_state:
-            st.write(f"Feedback: {st.session_state[f'F{i}']}")
+    for i in range(st.session_state.currentKeyword):
+        with st.expander(f"Question {i+1}"):
+            st.write(st.session_state[f"Q{i}"])
+            if f"A{i}" in st.session_state:
+                st.write(f"Your answer: {st.session_state[f'A{i}']}")
+            if f"F{i}" in st.session_state:
+                st.write(f"Feedback: {st.session_state[f'F{i}']}")
 
 answer = st.text_input("Your answer:")
 if st.button("Submit Answer"):

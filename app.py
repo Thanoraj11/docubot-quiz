@@ -1,21 +1,21 @@
-# import streamlit as st
-# from llama_index.llms import OpenAI, ChatMessage
-# from typing import List
-# from nltk.translate.bleu_score import sentence_bleu
-# from llama_index import (
-#     GPTVectorStoreIndex, Document, SimpleDirectoryReader,
-#     QuestionAnswerPrompt, LLMPredictor, ServiceContext
-# )
-# from tempfile import NamedTemporaryFile
-# from llama_index import download_loader
-# import openai
-# import os
-# from pathlib import Path
-# from llama_index.retrievers import VectorIndexRetriever
-# from llama_index.query_engine import RetrieverQueryEngine
-# from random import randint
-# import random
-# import string
+import streamlit as st
+from llama_index.llms import OpenAI, ChatMessage
+from typing import List
+from nltk.translate.bleu_score import sentence_bleu
+from llama_index import (
+    GPTVectorStoreIndex, Document, SimpleDirectoryReader,
+    QuestionAnswerPrompt, LLMPredictor, ServiceContext
+)
+from tempfile import NamedTemporaryFile
+from llama_index import download_loader
+import openai
+import os
+from pathlib import Path
+from llama_index.retrievers import VectorIndexRetriever
+from llama_index.query_engine import RetrieverQueryEngine
+from random import randint
+import random
+import string
 
 
 

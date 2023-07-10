@@ -113,7 +113,7 @@ if uploaded_file is not None:
     st.sidebar.write(st.session_state.keywords)
 
 if "currentKeyword" not in st.session_state:
-    st.session_state.currentKeyword = 0
+    st.session_state.currentKeyword = 1
 
 #  keywords
 

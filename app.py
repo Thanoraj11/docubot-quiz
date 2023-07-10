@@ -19,9 +19,10 @@ import string
 
 
 
-PDFReader = download_loader("PDFReader")
-
+# Assuming that the environment variable for OpenAI API key is set
 openai.api_key = os.getenv("OPENAI_API_KEY")
+
+PDFReader = download_loader("PDFReader")
 
 llm = OpenAI(temperature=0, model="gpt-3.5-turbo-0613")
 
@@ -30,7 +31,13 @@ def process_pdf(uploaded_file):
     with NamedTemporaryFile(delete=False, suffix=".pdf") as temp_file:
         temp_file.write(uploaded_file.getvalue())
         documents = loader.load_data(file=Path(temp_file.name))
-    return documents
+    
+    llm_predictor = LLMPredictor(llm=OpenAI(temperature=0.15, model_name="text-davinci-003", max_tokens=1000))
+    service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
+    
+    index = GPTVectorStoreIndex.from_documents(documents,service_context=service_context)
+    query_engine = index.as_query_engine()
+    return query_engine
 
 st.set_page_config(layout="wide")  # Set layout to wide
 
@@ -39,18 +46,54 @@ st.title("AI Tutor")
 uploaded_file = st.file_uploader("Upload a PDF file", type="pdf")
 
 if uploaded_file is not None:
-    documents = process_pdf(uploaded_file)
-    st.sidebar.write(documents)
+    query_engine = process_pdf(uploaded_file)
+    res  = query_engine.query("Please list 10 keywords or topics from the document").response
+    keywords = res.split('\n')
+    st.sidebar.write(keywords)
 
 if st.button("Start learning Session"):
-    question = llm.chat([ChatMessage(role="system", content=f"Generate a question about the document")])
-    st.sidebar.write(question)
+    current_keyword = keywords[0]
+    st.sidebar.write(current_keyword)
+    question = llm.chat([ChatMessage(role="system", content=f"Generate a question about the topic: {current_keyword}")])
+    st.write(question)
 
 answer = st.text_input("Your answer:")
 
-if answer:
-    feedback = llm.chat([ChatMessage(role="system", content=f"Give feedback on the answer: {answer}")])
-    st.write(f"Feedback: {feedback}")
+
+
+
+# PDFReader = download_loader("PDFReader")
+
+# openai.api_key = os.getenv("OPENAI_API_KEY")
+
+# llm = OpenAI(temperature=0, model="gpt-3.5-turbo-0613")
+
+# def process_pdf(uploaded_file):
+#     loader = PDFReader()
+#     with NamedTemporaryFile(delete=False, suffix=".pdf") as temp_file:
+#         temp_file.write(uploaded_file.getvalue())
+#         documents = loader.load_data(file=Path(temp_file.name))
+#     return documents
+
+# st.set_page_config(layout="wide")  # Set layout to wide
+
+# st.title("AI Tutor")
+
+# uploaded_file = st.file_uploader("Upload a PDF file", type="pdf")
+
+# if uploaded_file is not None:
+#     documents = process_pdf(uploaded_file)
+#     st.sidebar.write(documents)
+
+# if st.button("Start learning Session"):
+#     question = llm.chat([ChatMessage(role="system", content=f"Generate a question about the document")])
+#     st.sidebar.write(question)
+
+# answer = st.text_input("Your answer:")
+
+# if answer:
+#     feedback = llm.chat([ChatMessage(role="system", content=f"Give feedback on the answer: {answer}")])
+#     st.write(f"Feedback: {feedback}")
 
 
 # import streamlit as st

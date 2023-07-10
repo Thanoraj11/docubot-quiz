@@ -123,7 +123,7 @@ if st.button("Start learning Session") :
 
 # Current question
 if "Q{st.session_state.currentKeyword}" in st.session_state:
-    with st.expander(f"Question {st.session_state.currentKeyword + 1} (Current)", expanded=True):
+    with st.expander(f"Question {st.session_state.currentKeyword} (Current)", expanded=True):
         st.write(st.session_state[f"Q{st.session_state.currentKeyword}"])
 
 # Previous messages

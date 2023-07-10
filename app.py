@@ -137,22 +137,22 @@ if st.button("Start learning Session") :
             if f"F{i}" in st.session_state:
                 st.write(f"Feedback: {st.session_state[f'F{i}']}")
 
-answer = st.text_input("Your answer:")
-if st.button("Submit Answer"):
-    feedback, score = tutor.give_feedback(answer)
-    # Store user answer and feedback
-    st.session_state[f"A{st.session_state.currentKeyword}"] = answer
-    st.session_state[f"F{st.session_state.currentKeyword}"] = feedback
+    answer = st.text_input("Your answer:")
+    if st.button("Submit Answer"):
+        feedback, score = tutor.give_feedback(answer)
+        # Store user answer and feedback
+        st.session_state[f"A{st.session_state.currentKeyword}"] = answer
+        st.session_state[f"F{st.session_state.currentKeyword}"] = feedback
 
-    if score < tutor.score_threshold:
-        subtopic = tutor.extract_keywords(feedback)
-        st.session_state.keywords.insert(st.session_state.currentKeyword + 1, subtopic[0])
+        if score < tutor.score_threshold:
+            subtopic = tutor.extract_keywords(feedback)
+            st.session_state.keywords.insert(st.session_state.currentKeyword + 1, subtopic[0])
 
-    st.session_state.currentKeyword += 1
+        st.session_state.currentKeyword += 1
 
-    if st.session_state.currentKeyword < len(st.session_state.keywords):
-        current_keyword = st.session_state.keywords[st.session_state.currentKeyword]
-        question = tutor.generate_question_answer(current_keyword)
-        st.session_state[f"Q{st.session_state.currentKeyword}"] = question
-    else:
-        st.write("You have completed all the selected topics. Well done!")
+        if st.session_state.currentKeyword < len(st.session_state.keywords):
+            current_keyword = st.session_state.keywords[st.session_state.currentKeyword]
+            question = tutor.generate_question_answer(current_keyword)
+            st.session_state[f"Q{st.session_state.currentKeyword}"] = question
+        else:
+            st.write("You have completed all the selected topics. Well done!")

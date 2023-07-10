@@ -127,35 +127,15 @@ if "currentKeyword" not in st.session_state:
 
 
 
-
-
-# text = st.text_area("Input text for learning:", "Enter text here...")
-
-# if "keywords" not in st.session_state:
-#     keywords = []
-
-
-# if st.button("Index topics"):
-
 uploaded_file = st.file_uploader("Upload a PDF file", type="pdf")
 if uploaded_file is not None:
     # if "index" not in st.session_state:
     st.session_state.index = process_pdf(uploaded_file)
 
 
-
-        # st.success("Index created successfully")
-    # keywords = tutor.extract_keywords(text)
-# if "keywords" not in st.session_state:
-    
     res  = st.session_state.index.query("Please list 10 keywords or topics from the document").response
     keywords = res.split('\n')
     # st.session_state.keywords = keywords
-
-
-
-# if "selected_keywords" not in st.session_state:
-#     selected_keywords
 
     selected_keywords = st.multiselect('Select topics for questions',keywords, default=keywords[1:])
 
@@ -168,11 +148,6 @@ if st.button("Start learning Session"):
 
 else:
     st.write("Please select at least one topic.")
-
-
-
-
-
 
 
 answer = st.text_input("Your answer:")

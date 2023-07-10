@@ -112,7 +112,7 @@ if uploaded_file is not None:
     st.session_state.keywords = res.split('\n')
 
 if "currentKeyword" not in st.session_state:
-    st.session_state.currentKeyword = 1
+    st.session_state.currentKeyword = 0
 
 #  keywords
 

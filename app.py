@@ -121,8 +121,13 @@ if st.button("Start learning Session") :
     question = tutor.generate_question_answer(current_keyword)
     st.session_state[f"Q{st.session_state.currentKeyword}"] = question
 
+# Current question
+if "Q{st.session_state.currentKeyword}" in st.session_state:
+    with st.expander(f"Question {st.session_state.currentKeyword} (Current)", expanded=True):
+        st.write(st.session_state[f"Q{st.session_state.currentKeyword}"])
+
 # Previous messages
-for i in range(st.session_state.currentKeyword):
+for i in range(st.session_state.currentKeyword+1):
     with st.expander(f"Question {i+1}"):
         st.write(st.session_state[f"Q{i}"])
         if f"A{i}" in st.session_state:

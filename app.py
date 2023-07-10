@@ -78,17 +78,17 @@ if uploaded_file is not None:
 if st.button("Start learning Session"):
     current_keyword = keywords[0]
     st.sidebar.write(current_keyword)
-    question = llm.chat([ChatMessage(role="system", content=f"Generate a question about the topic: {current_keyword}")]).message.message
+    question = llm.chat([ChatMessage(role="system", content=f"Generate a question about the topic: {current_keyword}")])
     st.write(question)
     chat_history = load_chat_history()
-    chat_history['question'] = question
+    chat_history['question'] = str(question)
     save_chat_history(chat_history)
 
 
 answer = st.text_input("Your answer:")
 
 if answer:
-    feedback = llm.chat([ChatMessage(role="system", content=f"Give feedback on the answer: {answer}")]).message.message
+    feedback = llm.chat([ChatMessage(role="system", content=f"Give feedback on the answer: {answer}")])
     st.write(f"Feedback: {feedback}")
     chat_history = load_chat_history()
     chat_history['answer'] = answer

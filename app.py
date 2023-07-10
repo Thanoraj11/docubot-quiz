@@ -96,7 +96,13 @@ if answer:
     chat_history['feedback'] = feedback
     save_chat_history(chat_history)
 
-
+with st.sidebar:
+    st.download_button(
+        label="Download chat history",
+        data=json.dumps(chat_history),
+        file_name="chat_history.json",
+        mime="application/json"
+    )
 
 
 

@@ -99,7 +99,7 @@ if answer:
 with st.sidebar:
     st.download_button(
         label="Download chat history",
-        data=json.dumps(chat_history),
+        data= load_chat_history(),
         file_name="chat_history.json",
         mime="application/json"
     )

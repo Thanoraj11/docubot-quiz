@@ -111,8 +111,6 @@ if uploaded_file is not None:
     res  = st.session_state.index.query("Please list 10 keywords or topics from the document").response
     st.session_state.keywords = res.split('\n')
 
-    st.sidebar.write(st.session_state.keywords)
-
 if "currentKeyword" not in st.session_state:
     st.session_state.currentKeyword = 1
 
@@ -125,7 +123,7 @@ if st.button("Start learning Session") :
 
 # Current question
 if "Q{st.session_state.currentKeyword}" in st.session_state:
-    with st.expander(f"Question {st.session_state.currentKeyword} (Current)", expanded=True):
+    with st.expander(f"Question {st.session_state.currentKeyword + 1} (Current)", expanded=True):
         st.write(st.session_state[f"Q{st.session_state.currentKeyword}"])
 
 # Previous messages

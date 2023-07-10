@@ -2,22 +2,22 @@ import streamlit as st
 from llama_index.llms import OpenAI, ChatMessage
 from typing import List
 from nltk.translate.bleu_score import sentence_bleu
-
 from llama_index import (
     GPTVectorStoreIndex, Document, SimpleDirectoryReader,
     QuestionAnswerPrompt, LLMPredictor, ServiceContext
 )
 from tempfile import NamedTemporaryFile
 from llama_index import download_loader
-
 import openai
 import os
 from pathlib import Path
 from llama_index.retrievers import VectorIndexRetriever
 from llama_index.query_engine import RetrieverQueryEngine
-PDFReader = download_loader("PDFReader")
+from random import randint
+import random
+import string
 
-from llama_index import Prompt
+PDFReader = download_loader("PDFReader")
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -36,15 +36,14 @@ def process_pdf(uploaded_file):
         index = GPTVectorStoreIndex.from_documents(documents,service_context=service_context)
         query_engine = index.as_query_engine()
         st.session_state.index = query_engine
-
     return st.session_state.index
 
 class TutorAgent:
     def __init__(self, chat_history: List[ChatMessage] = []):
         self._llm = llm
         self._chat_history = chat_history
-        self.score_threshold = 7  
-        self.expected_answer = ""  
+        self.score_threshold = 7  # adjust this as per your requirements
+        self.expected_answer = ""  # Initialize expected_answer attribute
 
     def reset(self):
         self._chat_history = []
@@ -52,14 +51,14 @@ class TutorAgent:
     def extract_keywords(self, text: str) -> List[str]:
         self.reset()
         message = self._llm.chat([ChatMessage(role="system", content=f"Please list 10 keywords or topics from the following text: {text}")])
-        keywords = message.message.content.split('\n')  
+        keywords = message.message.content.split('\n')  # Assuming the model returns a newline-separated list
         return keywords
 
     def generate_question_answer(self, keyword: str):
         self.reset()
         message = self._llm.chat([ChatMessage(role="system", content=f"Generate a question about the topic: {keyword} with the answer separated by a newline.")])
         
-        responses = message.message.content.split('\n')  
+        responses = message.message.content.split('\n')  # Assuming the model returns question and answer separated by a newline
         self.expected_answer = responses[1]
         return responses[0]
 
@@ -97,48 +96,54 @@ class TutorAgent:
         score = message.message.content
         return score
 
-
 tutor = TutorAgent()
 
-st.title("AI Tutor")
+st.set_page_config(layout="wide")  # Set layout to wide
 
-if "currentKeyword" not in st.session_state:
-    st.session_state.currentKeyword = 1
+st.title("AI Tutor")
 
 uploaded_file = st.file_uploader("Upload a PDF file", type="pdf")
 if uploaded_file is not None:
     st.session_state.index = process_pdf(uploaded_file)
-
     res  = st.session_state.index.query("Please list 10 keywords or topics from the document").response
     keywords = res.split('\n')
-    st.session_state.keywords = keywords[1:]
+
+if "currentKeyword" not in st.session_state:
+    st.session_state.currentKeyword = 0
+
+if "keywords" not in st.session_state:
+    st.session_state.keywords = keywords
 
 if st.button("Start learning Session"):
-    current_keyword = st.session_state.keywords.pop(0)
+    current_keyword = st.session_state.keywords[st.session_state.currentKeyword]
     question = tutor.generate_question_answer(current_keyword)
-    st.write("Question: ", question)
+    st.session_state[f"Q{st.session_state.currentKeyword}"] = question
+
+# Previous messages
+for i in range(st.session_state.currentKeyword):
+    with st.expander(f"Question {i+1}"):
+        st.write(st.session_state[f"Q{i}"])
+        if f"A{i}" in st.session_state:
+            st.write(f"Your answer: {st.session_state[f'A{i}']}")
+        if f"F{i}" in st.session_state:
+            st.write(f"Feedback: {st.session_state[f'F{i}']}")
 
 answer = st.text_input("Your answer:")
 if st.button("Submit Answer"):
     feedback, score = tutor.give_feedback(answer)
-    if score < tutor.score_threshold:  
-        subtopic = tutor.extract_keywords(feedback)  
-        st.session_state.keywords.insert(0, subtopic[0])  
-    elif st.session_state.keywords:  
-        st.session_state.keywords  = st.session_state.keywords[st.session_state.currentKeyword:] 
-        st.session_state.currentKeyword += 1
+    # Store user answer and feedback
+    st.session_state[f"A{st.session_state.currentKeyword}"] = answer
+    st.session_state[f"F{st.session_state.currentKeyword}"] = feedback
 
-    if st.session_state.keywords:
-        current_keyword = st.session_state.keywords[0]
+    if score < tutor.score_threshold:
+        subtopic = tutor.extract_keywords(feedback)
+        st.session_state.keywords.insert(st.session_state.currentKeyword + 1, subtopic[0])
+
+    st.session_state.currentKeyword += 1
+
+    if st.session_state.currentKeyword < len(st.session_state.keywords):
+        current_keyword = st.session_state.keywords[st.session_state.currentKeyword]
         question = tutor.generate_question_answer(current_keyword)
-        st.write("Next question: ", question)
-
+        st.session_state[f"Q{st.session_state.currentKeyword}"] = question
     else:
         st.write("You have completed all the selected topics. Well done!")
-
-st.sidebar.header("Chat History")
-for message in tutor._chat_history:
-    if message.role == 'system':
-        st.sidebar.markdown(f"**System**: {message.content}")
-    else:
-        st.sidebar.markdown(f"**You**: {message.content}")

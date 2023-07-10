@@ -19,7 +19,19 @@ import string
 
 
 
-# Assuming that the environment variable for OpenAI API key is set
+# import streamlit as st
+# from llama_index.llms import OpenAI
+# from llama_index import (
+#     GPTVectorStoreIndex, Document, SimpleDirectoryReader,
+#     QuestionAnswerPrompt, LLMPredictor, ServiceContext
+# )
+# from tempfile import NamedTemporaryFile
+# from llama_index import download_loader
+# import openai
+# import os
+# from pathlib import Path
+import json
+
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 PDFReader = download_loader("PDFReader")
@@ -39,7 +51,18 @@ def process_pdf(uploaded_file):
     query_engine = index.as_query_engine()
     return query_engine
 
-st.set_page_config(layout="wide")  # Set layout to wide
+def save_chat_history(chat_history):
+    with open('chat_history.json', 'w') as f:
+        json.dump(chat_history, f)
+
+def load_chat_history():
+    try:
+        with open('chat_history.json', 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {}
+
+st.set_page_config(layout="wide")
 
 st.title("AI Tutor")
 
@@ -51,17 +74,24 @@ if uploaded_file is not None:
     keywords = res.split('\n')
     st.sidebar.write(keywords)
 
+chat_history = load_chat_history()
+
 if st.button("Start learning Session"):
     current_keyword = keywords[0]
     st.sidebar.write(current_keyword)
     question = llm.chat([ChatMessage(role="system", content=f"Generate a question about the topic: {current_keyword}")])
     st.write(question)
+    chat_history['question'] = question
 
 answer = st.text_input("Your answer:")
 
 if answer:
     feedback = llm.chat([ChatMessage(role="system", content=f"Give feedback on the answer: {answer}")])
     st.write(f"Feedback: {feedback}")
+    chat_history['answer'] = answer
+    chat_history['feedback'] = feedback
+
+save_chat_history(chat_history)
 
 
 

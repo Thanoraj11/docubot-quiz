@@ -6,6 +6,14 @@ from pathlib import Path
 from random import randint
 import random
 import string
+from llama_index import (
+    GPTVectorStoreIndex, Document, SimpleDirectoryReader,
+    QuestionAnswerPrompt, LLMPredictor, ServiceContext
+)
+
+
+from llama_index.llms import OpenAI, ChatMessage
+
 
 PDFReader = download_loader("PDFReader")
 

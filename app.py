@@ -81,6 +81,7 @@ if st.button("Start learning Session"):
     question = llm.chat([ChatMessage(role="system", content=f"Generate a question about the topic: {current_keyword}")])
     st.write(question)
     chat_history = load_chat_history()
+    st.write(chat_history)
     chat_history['question'] = str(question)
     save_chat_history(chat_history)
 

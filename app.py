@@ -59,6 +59,9 @@ if st.button("Start learning Session"):
 
 answer = st.text_input("Your answer:")
 
+if answer:
+    feedback = llm.chat([ChatMessage(role="system", content=f"Give feedback on the answer: {answer}")])
+    st.write(f"Feedback: {feedback}")
 
 
 

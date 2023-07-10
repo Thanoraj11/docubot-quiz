@@ -111,6 +111,8 @@ if uploaded_file is not None:
     res  = st.session_state.index.query("Please list 10 keywords or topics from the document").response
     st.session_state.keywords = res.split('\n')
 
+    st.sidebar.write(st.session_state.keywords)
+
 if "currentKeyword" not in st.session_state:
     st.session_state.currentKeyword = 0
 

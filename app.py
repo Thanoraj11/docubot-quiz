@@ -102,6 +102,8 @@ st.set_page_config(layout="wide")  # Set layout to wide
 
 st.title("AI Tutor")
 
+keywords = []
+
 uploaded_file = st.file_uploader("Upload a PDF file", type="pdf")
 if uploaded_file is not None:
     st.session_state.index = process_pdf(uploaded_file)

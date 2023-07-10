@@ -53,7 +53,7 @@ def process_pdf(uploaded_file):
 
 def save_chat_history(chat_history):
     with open('chat_history.json', 'w') as f:
-        json.dump(chat_history, f)
+        json.dumps(chat_history, f)
 
 def load_chat_history():
     try:
@@ -99,7 +99,7 @@ if answer:
 with st.sidebar:
     st.download_button(
         label="Download chat history",
-        data= load_chat_history(),
+        data= json.dump(chat_history),
         file_name="chat_history.json",
         mime="application/json"
     )

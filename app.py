@@ -102,21 +102,21 @@ st.set_page_config(layout="wide")  # Set layout to wide
 
 st.title("AI Tutor")
 
-keywords = []
+if "keywords" not in st.session_state:
+    st.session_state.keywords =[]
 
 uploaded_file = st.file_uploader("Upload a PDF file", type="pdf")
 if uploaded_file is not None:
     st.session_state.index = process_pdf(uploaded_file)
     res  = st.session_state.index.query("Please list 10 keywords or topics from the document").response
-    keywords = res.split('\n')
+    st.session_state.keywords = res.split('\n')
 
 if "currentKeyword" not in st.session_state:
     st.session_state.currentKeyword = 0
 
-if "keywords" not in st.session_state:
-    st.session_state.keywords = keywords
+#  keywords
 
-if st.button("Start learning Session"):
+if st.button("Start learning Session") :
     current_keyword = st.session_state.keywords[st.session_state.currentKeyword]
     question = tutor.generate_question_answer(current_keyword)
     st.session_state[f"Q{st.session_state.currentKeyword}"] = question

@@ -6,7 +6,7 @@ import os
 st.markdown("""
 <style>
 div[data-testid="stExpander"][aria-expanded="true"] > div:first-child {
-    background-color: #4f8bf9;
+    background-color: #000fff;
     color: white;
 }
 </style>

@@ -135,27 +135,27 @@ def main():
         # directories = [d for d in os.listdir(DATA_DIR) if os.path.isdir(os.path.join(DATA_DIR, d))]
         directories = [d for d in os.listdir(DATA_DIR) if os.path.isdir(os.path.join(DATA_DIR, d)) and d.endswith(".xml")]
 
-        colms = st.columns((4, 1, 1))
-        fields = ["Name", 'View', 'Delete']
-        for col, field_name in zip(colms, fields):
-            col.subheader(field_name)
+        # colms = st.columns((4, 1, 1))
+        # fields = ["Name", 'View', 'Delete']
+        # for col, field_name in zip(colms, fields):
+        #     col.subheader(field_name)
 
-        j = 1
-        for dir_name in directories:
-            j += 1
-            col1, col2, col3 = st.columns((4, 1, 1))
-            col1.caption(dir_name)
-            file_path = os.path.join(DATA_DIR, dir_name, "data.json")
-            if os.path.isfile(file_path):
-                col2.button("View", key=file_path, on_click=display_json, args=(file_path,))
-                delete_status = True
-            else:
-                col2.write("N/A")
-                delete_status = False
-            button_type = "Delete" if delete_status else "Gone"
-            button_phold = col3.empty()
-            do_action = button_phold.button(
-                button_type, key=f"{dir_name}j", on_click=delete_directory, args=(os.path.join(DATA_DIR, dir_name),))
+        # j = 1
+        # for dir_name in directories:
+        #     j += 1
+        #     col1, col2, col3 = st.columns((4, 1, 1))
+        #     col1.caption(dir_name)
+        #     file_path = os.path.join(DATA_DIR, dir_name, "data.json")
+        #     if os.path.isfile(file_path):
+        #         col2.button("View", key=file_path, on_click=display_json, args=(file_path,))
+        #         delete_status = True
+        #     else:
+        #         col2.write("N/A")
+        #         delete_status = False
+        #     button_type = "Delete" if delete_status else "Gone"
+        #     button_phold = col3.empty()
+        #     do_action = button_phold.button(
+        #         button_type, key=f"{dir_name}j", on_click=delete_directory, args=(os.path.join(DATA_DIR, dir_name),))
 
 if __name__ == "__main__":
 

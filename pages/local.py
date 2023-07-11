@@ -85,7 +85,7 @@ index_file = st.selectbox("Select a PDF file to load:", index_filenames_pdf)
 
 
 st.title("Quizbot Application")
-# keywords = []
+keywords = []
 if st.button("Start Learning Session"):
     index_path = os.path.join(DATA_DIR, index_file)
     query_prompt = "Generate 10 important areas that are covered in this book"
@@ -125,9 +125,9 @@ if len(st.session_state.conversations) > 0:
         # Move to the next question
         st.session_state.counter += 1
 
-    for i, conversation in enumerate(reversed(st.session_state.conversations), start=1):
-        with st.expander(f"Thread {len(st.session_state.conversations)-i+1}", expanded=(i==1)):
-            st.write(f"**Question**\n\n", f"\n{conversation['question']}")
-            if not st.session_state.counter == 0:
-                st.write(f"**Your Answer**\n\n", f"\n{conversation['user_answer']}")
-                st.write(f"**Feedback**\n\n", f"\n{conversation['feedback']}")
+for i, conversation in enumerate(reversed(st.session_state.conversations), start=1):
+    with st.expander(f"Thread {len(st.session_state.conversations)-i+1}", expanded=(i==1)):
+        st.write(f"**Question**\n\n", f"\n{conversation['question']}")
+        if not st.session_state.counter == 0:
+            st.write(f"**Your Answer**\n\n", f"\n{conversation['user_answer']}")
+            st.write(f"**Feedback**\n\n", f"\n{conversation['feedback']}")

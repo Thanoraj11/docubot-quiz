@@ -93,5 +93,6 @@ if len(st.session_state.conversations) > 0:
 for i, conversation in enumerate(reversed(st.session_state.conversations), start=1):
     with st.expander(f"Thread {len(st.session_state.conversations)-i+1}", expanded=(i==1)):
         st.write(f"**Question**\n\n", f"\n{conversation['question']}")
-        st.write(f"**Your Answer**\n\n", f"\n{conversation['user_answer']}")
-        st.write(f"**Feedback**\n\n", f"\n{conversation['feedback']}")
+        if not st.session_state.conversations == 0
+            st.write(f"**Your Answer**\n\n", f"\n{conversation['user_answer']}")
+            st.write(f"**Feedback**\n\n", f"\n{conversation['feedback']}")

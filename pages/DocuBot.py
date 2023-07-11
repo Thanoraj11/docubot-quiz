@@ -178,8 +178,8 @@ def main():
             do_action = button_phold.button(
                 button_type, key=f"{dir_name}j", on_click=delete_directory, args=(os.path.join(DATA_DIR, dir_name),))
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
 
 
 # import os
@@ -410,9 +410,6 @@ def main():
 #         button_phold = col3.empty()
 #         do_action = button_phold.button(
 #             button_type, key=i, on_click=delete_directory, args=(os.path.join(DATA_DIR, dir_name),))
-
-if __name__ == "__main__":
-    main()
 
 
 

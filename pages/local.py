@@ -42,7 +42,7 @@ def generate_answer_pdf(index_path, query_prompt):
     index = load_index_from_storage(storage_context)
     query_engine = index.as_query_engine()
     resp = query_engine.query(query_prompt)
-    return resp.resp
+    return resp.response
 
 
 def grade_answer(question, user_answer):

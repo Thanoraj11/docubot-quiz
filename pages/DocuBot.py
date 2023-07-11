@@ -131,7 +131,7 @@ def main():
         do_action = button_phold_pdf.button(
             button_type, key=i, on_click=delete_directory, args=(os.path.join(DATA_DIR, dir_name),))
 
-
+        DATA_DIR = "data"
         # directories = [d for d in os.listdir(DATA_DIR) if os.path.isdir(os.path.join(DATA_DIR, d))]
         directories = [d for d in os.listdir(DATA_DIR) if os.path.isdir(os.path.join(DATA_DIR, d)) and d.endswith(".xml")]
 

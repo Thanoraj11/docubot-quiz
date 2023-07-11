@@ -1,11 +1,12 @@
 import streamlit as st
 import openai
-from openai import GPT3Completion
+# from openai import GPT3Completion
 
-openai.api_key = 'your-openai-api-key'
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
 
 # GPT-3.5 Turbo parameters
-ENGINE = "text-davinci-0035"
+ENGINE = "text-davinci-003"
 MAX_TOKENS = 60
 
 keywords = ['Python', 'Java', 'JavaScript']  # Your list of keywords here

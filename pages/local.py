@@ -101,8 +101,8 @@ st.write("Your current score:", st.session_state.score)
 
 if st.session_state.counter < len(keywords):
     keyword = keywords[st.session_state.counter]
-    question = generate_question(keyword)
-    st.write(f"**{question}**")
+    question = generate_question(keyword).strip()
+    st.write(f"### {question}")
     st.session_state.conversations.append({
         'keyword': keyword,
         'question': question,

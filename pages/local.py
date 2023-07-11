@@ -123,7 +123,7 @@ if len(st.session_state.conversations) > 0:
         current_conversation['feedback'] = feedback
 
         # Move to the next question
-        st.session_state.counter += 1
+    st.session_state.counter += 1
 
 for i, conversation in enumerate(reversed(st.session_state.conversations), start=1):
     with st.expander(f"Thread {len(st.session_state.conversations)-i+1}", expanded=(i==1)):

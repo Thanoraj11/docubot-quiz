@@ -42,10 +42,7 @@ def generate_answer_pdf(index_path, query_prompt):
     index = load_index_from_storage(storage_context)
     query_engine = index.as_query_engine()
     response = query_engine.query(query_prompt)
-    st.session_state.history.append({"message": query_prompt, "is_user": True, "index_path":index_path})
-    st.session_state.history.append(
-        {"message": str(response.response), "is_user": False})
-    st.session_state.input_text = ""
+    return response.response
 
 
 def grade_answer(question, user_answer):

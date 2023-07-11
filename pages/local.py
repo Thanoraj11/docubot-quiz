@@ -1,11 +1,8 @@
 import streamlit as st
-
-
 import openai
 import os
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
-
 
 # GPT-3.5 Turbo parameters
 ENGINE = "text-davinci-003"
@@ -39,8 +36,9 @@ if st.button("Start Learning Session"):
     st.session_state.score = 0
     st.session_state.conversations = []
 
+st.write("Your current score:", st.session_state.score)
+
 if st.session_state.counter < len(keywords):
-    # if st.button("Generate Question"):
     keyword = keywords[st.session_state.counter]
     question = generate_question(keyword)
     st.session_state.conversations.append({
@@ -70,5 +68,3 @@ for i, conversation in enumerate(reversed(st.session_state.conversations), start
         st.write("Question:", conversation['question'])
         st.write("Your answer:", conversation['user_answer'])
         st.write("Feedback:", conversation['feedback'])
-
-st.write("Your current score:", st.session_state.score)

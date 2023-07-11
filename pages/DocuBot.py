@@ -11,7 +11,7 @@ from langchain import OpenAI
 # from dotenv import load_dotenv
 import io
 
-load_dotenv()
+# load_dotenv()
 # os.getenv("API_KEY")
 openai.api_key = os.environ["OPENAI_API_KEY"]
 PDFReader = download_loader("PDFReader")

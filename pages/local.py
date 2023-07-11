@@ -92,6 +92,7 @@ if st.button("Start Learning Session"):
     vector_resp = generate_answer_pdf(index_path, query_prompt)
     
     keywords = vector_resp.split('\n')
+    keywords = keywords[1:]
     st.sidebar.write(keywords)
     # st.write(keywords)
     st.session_state.counter = 0
@@ -101,7 +102,7 @@ if st.button("Start Learning Session"):
 st.write("Your current score:", st.session_state.score)
 
 if st.session_state.counter < len(keywords):
-    keyword = keywords[st.session_state.counter]
+    keyword = keywords[st.session_state.counter+1]
     question = generate_question(keyword).strip()
     st.write(f"### {question}")
     st.session_state.conversations.append({

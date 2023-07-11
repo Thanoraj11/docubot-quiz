@@ -85,12 +85,12 @@ index_file = st.selectbox("Select a PDF file to load:", index_filenames_pdf)
 
 
 st.title("Quizbot Application")
-
+keywords = []
 if st.button("Start Learning Session"):
     index_path = os.path.join(DATA_DIR, index_file)
     query_prompt = "Generate 10 important areas that are covered in this book"
     vector_resp = generate_answer_pdf(index_path, query_prompt)
-    keywords = []
+    
     keywords = vector_resp.content.split('\n')
     st.session_state.counter = 0
     st.session_state.score = 0

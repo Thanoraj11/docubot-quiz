@@ -91,7 +91,7 @@ if st.button("Start Learning Session"):
     query_prompt = "Generate 10 important areas that are covered in this book"
     vector_resp = generate_answer_pdf(index_path, query_prompt)
     
-    keywords = vector_resp.content.split('\n')
+    keywords = vector_resp.split('\n')
     st.session_state.counter = 0
     st.session_state.score = 0
     st.session_state.conversations = []

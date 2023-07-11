@@ -5,6 +5,9 @@ from llama_index import (
     GPTVectorStoreIndex, Document, SimpleDirectoryReader,
     QuestionAnswerPrompt, LLMPredictor, ServiceContext
 )
+
+from llama_index import (GPTVectorStoreIndex, Document, SimpleDirectoryReader,QuestionAnswerPrompt, LLMPredictor, ServiceContext, StorageContext, load_index_from_storage)
+
 from tempfile import NamedTemporaryFile
 from llama_index import download_loader
 import openai

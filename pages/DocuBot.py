@@ -105,7 +105,8 @@ def main():
             index.storage_context.persist(persist_dir=dir_path)
                 
             tab1.success("Index created successfully!")
-
+            
+        DATA_DIR = "data"
         directories = [d for d in os.listdir(DATA_DIR) if os.path.isdir(os.path.join(DATA_DIR, d)) and d.endswith(".pdf")]
 
         colms = st.columns((4, 1, 1))
@@ -179,7 +180,7 @@ def main():
                 button_type, key=f"{dir_name}j", on_click=delete_directory, args=(os.path.join(DATA_DIR, dir_name),))
 
 if __name__ == "__main__":
-    
+
     DATA_DIR = "data"
     main()
 

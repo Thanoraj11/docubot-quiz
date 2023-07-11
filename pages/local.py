@@ -87,24 +87,22 @@ index_file = st.selectbox("Select a PDF file to load:", index_filenames_pdf)
 st.title("Quizbot Application")
 keywords = []
 if st.button("Start Learning Session"):
-    st.session_state.counter = 0
-    st.session_state.score = 0
-    st.session_state.conversations = []
     index_path = os.path.join(DATA_DIR, index_file)
-    query_prompt = "Generate 10 important topics that are covered in this book"
+    query_prompt = "Generate 10 important areas that are covered in this book"
     vector_resp = generate_answer_pdf(index_path, query_prompt)
     
     keywords = vector_resp.split('\n')
-    keywords = keywords[1:]
-    st.sidebar.write(keywords)
     # st.write(keywords)
-
+    st.session_state.counter = 0
+    st.session_state.score = 0
+    st.session_state.conversations = []
 
 st.write("Your current score:", st.session_state.score)
 
 if st.session_state.counter < len(keywords):
     keyword = keywords[st.session_state.counter]
     question = generate_question(keyword)
+    # st.write(f"**{question}**")
     st.session_state.conversations.append({
         'keyword': keyword,
         'question': question,
@@ -115,22 +113,20 @@ if st.session_state.counter < len(keywords):
 if len(st.session_state.conversations) > 0:
     current_conversation = st.session_state.conversations[-1]
 
-user_answer = st.text_area("Your answer:")
-if user_answer:
-    current_conversation['user_answer'] = user_answer
+    user_answer = st.text_area("Your answer:")
+    if user_answer:
+        current_conversation['user_answer'] = user_answer
 
-    # Grade the answer
-    correct, feedback = grade_answer(current_conversation['question'], user_answer)
-    st.session_state.score += int(correct)
-    current_conversation['feedback'] = feedback
+        # Grade the answer
+        correct, feedback = grade_answer(current_conversation['question'], user_answer)
+        st.session_state.score += int(correct)
+        current_conversation['feedback'] = feedback
 
-    # Move to the next question
-    st.session_state.counter += 1
+        # Move to the next question
+        st.session_state.counter += 1
 
 for i, conversation in enumerate(reversed(st.session_state.conversations), start=1):
-
     with st.expander(f"Thread {len(st.session_state.conversations)-i+1}", expanded=(i==1)):
         st.write(f"**Question**\n\n", f"\n{conversation['question']}")
-        # if not st.session_state.counter == 0:
         st.write(f"**Your Answer**\n\n", f"\n{conversation['user_answer']}")
         st.write(f"**Feedback**\n\n", f"\n{conversation['feedback']}")

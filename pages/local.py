@@ -26,7 +26,7 @@ def grade_answer(question, user_answer):
     prompt = f"""
     The question was: {question}
     The user answered: {user_answer}
-    return a True/False if answer is correct/wrong and with a feedback for me as a tutor to improve.
+    return a True/False if answer is correct/wrong and also provide a comprehensive feedback to improve the answer.
     Resposne should be returned as a plain string in the following format,
     "True: Feedback."
     """

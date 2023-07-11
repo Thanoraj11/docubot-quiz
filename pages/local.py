@@ -112,7 +112,7 @@ if st.session_state.counter < len(keywords):
     })
 
 if len(st.session_state.conversations) > 0:
-    current_conversation = st.session_state.conversations[-1]
+    current_conversation = st.session_state.conversations[-]
 
     user_answer = st.text_area("Your answer:")
     if user_answer:

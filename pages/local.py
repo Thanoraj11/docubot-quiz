@@ -40,15 +40,15 @@ if st.button("Start Learning Session"):
     st.session_state.conversations = []
 
 if st.session_state.counter < len(keywords):
-    if st.button("Generate Question"):
-        keyword = keywords[st.session_state.counter]
-        question = generate_question(keyword)
-        st.session_state.conversations.append({
-            'keyword': keyword,
-            'question': question,
-            'user_answer': None,
-            'feedback': None,
-        })
+    # if st.button("Generate Question"):
+    keyword = keywords[st.session_state.counter]
+    question = generate_question(keyword)
+    st.session_state.conversations.append({
+        'keyword': keyword,
+        'question': question,
+        'user_answer': None,
+        'feedback': None,
+    })
 
     if len(st.session_state.conversations) > 0:
         current_conversation = st.session_state.conversations[-1]

@@ -1,8 +1,11 @@
 import streamlit as st
+
+
 import openai
 import os
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
+
 
 # GPT-3.5 Turbo parameters
 ENGINE = "text-davinci-003"
@@ -20,6 +23,7 @@ if 'conversations' not in st.session_state:
 
 def grade_answer(question, user_answer):
     # You'll need to implement this function depending on how you want to grade the answers.
+    # In this mock function, it always returns True.
     return True, "Correct answer!"
 
 def generate_question(keyword):
@@ -36,6 +40,7 @@ if st.button("Start Learning Session"):
     st.session_state.conversations = []
 
 if st.session_state.counter < len(keywords):
+    # if st.button("Generate Question"):
     keyword = keywords[st.session_state.counter]
     question = generate_question(keyword)
     st.session_state.conversations.append({
@@ -48,7 +53,7 @@ if st.session_state.counter < len(keywords):
     if len(st.session_state.conversations) > 0:
         current_conversation = st.session_state.conversations[-1]
 
-        user_answer = st.text_area("Your answer:")
+        user_answer = st.text_input("Your answer:")
         if user_answer:
             current_conversation['user_answer'] = user_answer
 
@@ -63,9 +68,7 @@ if st.session_state.counter < len(keywords):
 for i, conversation in enumerate(reversed(st.session_state.conversations), start=1):
     with st.expander(f"Question {len(st.session_state.conversations)-i+1}", expanded=(i==1)):
         st.write("Question:", conversation['question'])
-    with st.expander(f"Your Answer {len(st.session_state.conversations)-i+1}", expanded=(i==1)):
-        st.write("Answer:", conversation['user_answer'])
-    with st.expander(f"Feedback {len(st.session_state.conversations)-i+1}", expanded=(i==1)):
+        st.write("Your answer:", conversation['user_answer'])
         st.write("Feedback:", conversation['feedback'])
 
 st.write("Your current score:", st.session_state.score)

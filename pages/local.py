@@ -114,17 +114,17 @@ if st.session_state.counter < len(keywords):
 if len(st.session_state.conversations) > 0:
     current_conversation = st.session_state.conversations[-1]
 
-    user_answer = st.text_area("Your answer:")
-    if user_answer:
-        current_conversation['user_answer'] = user_answer
+user_answer = st.text_area("Your answer:")
+if user_answer:
+    current_conversation['user_answer'] = user_answer
 
-        # Grade the answer
-        correct, feedback = grade_answer(current_conversation['question'], user_answer)
-        st.session_state.score += int(correct)
-        current_conversation['feedback'] = feedback
+    # Grade the answer
+    correct, feedback = grade_answer(current_conversation['question'], user_answer)
+    st.session_state.score += int(correct)
+    current_conversation['feedback'] = feedback
 
-        # Move to the next question
-        st.session_state.counter += 1
+    # Move to the next question
+    st.session_state.counter += 1
 
 for i, conversation in enumerate(reversed(st.session_state.conversations), start=1):
     with st.expander(f"Thread {len(st.session_state.conversations)-i+1}", expanded=(i==1)):

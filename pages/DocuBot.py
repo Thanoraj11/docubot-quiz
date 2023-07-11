@@ -179,6 +179,8 @@ def main():
                 button_type, key=f"{dir_name}j", on_click=delete_directory, args=(os.path.join(DATA_DIR, dir_name),))
 
 if __name__ == "__main__":
+    
+    DATA_DIR = "data"
     main()
 
 

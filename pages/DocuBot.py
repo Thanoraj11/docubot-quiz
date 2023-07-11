@@ -87,7 +87,7 @@ def main():
     uploaded_file_pdf = st.file_uploader("Upload a PDF file", type="pdf")
     if uploaded_file_pdf is not None:
         file_name = uploaded_file_pdf.name
-    
+        DATA_DIR = "data"
         dir_path = os.path.join(DATA_DIR, file_name)
         os.makedirs(dir_path, exist_ok=True)
         save_uploaded_file(uploaded_file_pdf, dir_path)

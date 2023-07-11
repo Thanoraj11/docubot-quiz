@@ -2,6 +2,17 @@ import streamlit as st
 import openai
 import os
 
+
+st.markdown("""
+<style>
+div[data-testid="stExpander"][aria-expanded="true"] > div:first-child {
+    background-color: #4f8bf9;
+    color: white;
+}
+</style>
+    """, unsafe_allow_html=True)
+
+
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # GPT-3.5 Turbo parameters

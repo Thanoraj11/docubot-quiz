@@ -65,6 +65,6 @@ if st.session_state.counter < len(keywords):
 
 for i, conversation in enumerate(reversed(st.session_state.conversations), start=1):
     with st.expander(f"Thread {len(st.session_state.conversations)-i+1}", expanded=(i==1)):
-        st.write(f"**Question**", f"\n{conversation['question']}")
-        st.write(f"**Your Answer**", f"\n{conversation['user_answer']}")
-        st.write(f"**Feedback**", f"\n{conversation['feedback']}")
+        st.write(f"**Question**\n\n", f"\n{conversation['question']}")
+        st.write(f"**Your Answer**\n\n", f"\n{conversation['user_answer']}")
+        st.write(f"**Feedback**\n\n", f"\n{conversation['feedback']}")

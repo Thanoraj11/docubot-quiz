@@ -27,7 +27,7 @@ def grade_answer(question, user_answer):
     return True, "Correct answer!"
 
 def generate_question(keyword):
-    prompt = f"Explain the concept of {keyword} in programming."
+    prompt = f"Generate a question about the following topic : {keyword}"
     response = openai.Completion.create(engine=ENGINE, prompt=prompt, max_tokens=MAX_TOKENS)
     return response.choices[0].text.strip()
 

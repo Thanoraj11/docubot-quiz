@@ -41,8 +41,8 @@ def generate_answer_pdf(index_path, query_prompt):
     storage_context = StorageContext.from_defaults(persist_dir=index_path)
     index = load_index_from_storage(storage_context)
     query_engine = index.as_query_engine()
-    response = query_engine.query(query_prompt)
-    return response.response
+    resp = query_engine.query(query_prompt)
+    return resp.resp
 
 
 def grade_answer(question, user_answer):
@@ -92,37 +92,36 @@ if st.button("Start Learning Session"):
     vector_resp = generate_answer_pdf(index_path, query_prompt)
     
     keywords = vector_resp.split('\n')
-    st.write(keywords)
+    # st.write(keywords)
     st.session_state.counter = 0
     st.session_state.score = 0
     st.session_state.conversations = []
 
 st.write("Your current score:", st.session_state.score)
 
-if len(st.session_state.conversations) < len(keywords):
+if st.session_state.counter < len(keywords):
     user_answer = st.text_area("Your answer:")
+    # if user_answer:
+    if len(st.session_state.conversations) > 0:
+        current_conversation = st.session_state.conversations[-1]
+        current_conversation['user_answer'] = user_answer
 
-    if user_answer:
-        if len(st.session_state.conversations) > 0:
-            current_conversation = st.session_state.conversations[-1]
-            current_conversation['user_answer'] = user_answer
+        correct, feedback = grade_answer(current_conversation['question'], user_answer)
+        st.session_state.score += int(correct)
+        current_conversation['feedback'] = feedback
 
-            correct, feedback = grade_answer(current_conversation['question'], user_answer)
-            st.session_state.score += int(correct)
-            current_conversation['feedback'] = feedback
+        st.session_state.counter += 1
 
-            st.session_state.counter += 1
+    if st.session_state.counter < len(keywords):
+        keyword = keywords[st.session_state.counter]
+        question = generate_question(keyword)
 
-        if st.session_state.counter < len(keywords):
-            keyword = keywords[st.session_state.counter]
-            question = generate_question(keyword)
-
-            st.session_state.conversations.append({
-                'keyword': keyword,
-                'question': question,
-                'user_answer': None,
-                'feedback': None,
-            })
+        st.session_state.conversations.append({
+            'keyword': keyword,
+            'question': question,
+            'user_answer': None,
+            'feedback': None,
+        })
 
 for i, conversation in enumerate(reversed(st.session_state.conversations), start=1):
     with st.expander(f"Thread {len(st.session_state.conversations)-i+1}", expanded=(i==1)):

@@ -1,6 +1,8 @@
 import streamlit as st
 import openai
 # from openai import GPT3Completion
+import os 
+
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 

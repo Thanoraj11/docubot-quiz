@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import List
 import json
 from langchain import OpenAI
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import io
 
 load_dotenv()

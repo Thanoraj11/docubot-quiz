@@ -23,9 +23,32 @@ if 'conversations' not in st.session_state:
     st.session_state.conversations = []
 
 def grade_answer(question, user_answer):
-    # You'll need to implement this function depending on how you want to grade the answers.
-    # In this mock function, it always returns True.
-    return True, "Correct answer!"
+    prompt = f"""
+    The question was: {question}
+    The user answered: {user_answer}
+    return a True/False if answer is correct/wrong and with a feedback for me as a tutor to improve.
+    Resposne should be returned as a plain string in the following format,
+    "True: Feedback."
+    """
+    
+    response = openai.Completion.create(
+        engine=ENGINE,
+        prompt=prompt,
+        max_tokens=MAX_TOKENS
+    )
+    
+    output_text = response.choices[0].text.strip()
+    
+    # Here you would split the response and convert string to boolean
+    # Make sure the model is returning the output in the format you are expecting
+    # Assuming the format of output is: "True: The answer is correct."
+    bool_value, feedback = output_text.split(':', 1)
+    bool_value = bool_value.strip().lower() == 'true'
+    feedback = feedback.strip()
+    st.write(bool_value, feedback)
+    
+    return bool_value, feedback
+
 
 def generate_question(keyword):
     prompt = f"Generate a question about the following topic : {keyword}"

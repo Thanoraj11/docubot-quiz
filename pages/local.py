@@ -51,7 +51,7 @@ if st.session_state.counter < len(keywords):
     if len(st.session_state.conversations) > 0:
         current_conversation = st.session_state.conversations[-1]
 
-        user_answer = st.text_input("Your answer:")
+        user_answer = st.text_area("Your answer:")
         if user_answer:
             current_conversation['user_answer'] = user_answer
 
@@ -65,6 +65,6 @@ if st.session_state.counter < len(keywords):
 
 for i, conversation in enumerate(reversed(st.session_state.conversations), start=1):
     with st.expander(f"Question {len(st.session_state.conversations)-i+1}", expanded=(i==1)):
-        st.write("Question:", conversation['question'])
-        st.write("Your answer:", conversation['user_answer'])
-        st.write("Feedback:", conversation['feedback'])
+        st.write(f"**Question**"+"\n"+" ", conversation['question'])
+        st.write(f"**Your Answer**"+"\n"+" ", conversation['user_answer'])
+        st.write(f"**Feedback**"+"\n"+" ", conversation['feedback'])

@@ -79,80 +79,58 @@ def process_data(documents):
 
 def main():
     st.title("DocuBOT Admin")
-    container = st.container()
-    with container:
-        tab1, tab2 = st.tabs(["Upload PDF", "Upload XML"])
+    # container = st.container()
+    # with container:
+    #     tab1, tab2 = st.tabs(["Upload PDF", "Upload XML"])
     
-    with tab1:
-        uploaded_file_pdf = st.file_uploader("Upload a PDF file", type="pdf")
-        if uploaded_file_pdf is not None:
-            file_name = uploaded_file_pdf.name
+    # with tab1:
+    uploaded_file_pdf = st.file_uploader("Upload a PDF file", type="pdf")
+    if uploaded_file_pdf is not None:
+        file_name = uploaded_file_pdf.name
+    
+        dir_path = os.path.join(DATA_DIR, file_name)
+        os.makedirs(dir_path, exist_ok=True)
+        save_uploaded_file(uploaded_file_pdf, dir_path)
+        # tab1.success("It would take a while to index the books, please wait..!")
         
-            dir_path = os.path.join(DATA_DIR, file_name)
-            os.makedirs(dir_path, exist_ok=True)
-            save_uploaded_file(uploaded_file_pdf, dir_path)
-            # tab1.success("It would take a while to index the books, please wait..!")
+        pdf_filename = uploaded_file_pdf.name
+        documents = loader.load_data(
+            file=Path(f"{os.path.join(dir_path, pdf_filename)}"))
+
+        llm_predictor = LLMPredictor(llm=OpenAI(temperature=0.15, model_name="text-curie-001", max_tokens=2800))
+        service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
+        index = GPTVectorStoreIndex.from_documents(documents, service_context=service_context)
+
+        # index.save_to_disk(os.path.join(dir_path, os.path.splitext(pdf_filename)[0] + ".json"))
+        index.storage_context.persist(persist_dir=dir_path)
             
-            pdf_filename = uploaded_file_pdf.name
-            documents = loader.load_data(
-                file=Path(f"{os.path.join(dir_path, pdf_filename)}"))
+        tab1.success("Index created successfully!")
 
-            llm_predictor = LLMPredictor(llm=OpenAI(temperature=0.15, model_name="text-curie-001", max_tokens=2800))
-            service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
-            index = GPTVectorStoreIndex.from_documents(documents, service_context=service_context)
+    DATA_DIR = "/data"
+    directories = [d for d in os.listdir(DATA_DIR) if os.path.isdir(os.path.join(DATA_DIR, d)) and d.endswith(".pdf")]
 
-            # index.save_to_disk(os.path.join(dir_path, os.path.splitext(pdf_filename)[0] + ".json"))
-            index.storage_context.persist(persist_dir=dir_path)
-                
-            tab1.success("Index created successfully!")
+    colms = st.columns((4, 1, 1))
+    fields = ["Name", 'View', 'Delete']
+    for col, field_name in zip(colms, fields):
+        col.subheader(field_name)
 
-        DATA_DIR = "/data"
-        directories = [d for d in os.listdir(DATA_DIR) if os.path.isdir(os.path.join(DATA_DIR, d)) and d.endswith(".pdf")]
+    i = 1
+    for dir_name in directories:
+        i += 1
+        col1, col2, col3 = st.columns((4, 1, 1))
+        col1.caption(dir_name)
+        file_path = os.path.join(DATA_DIR, dir_name, dir_name)
+        if os.path.isfile(file_path):
+            col2.button("View", key=file_path, on_click=display_pdf, args=(file_path,))
+            delete_status = True
+        else:
+            col2.write("N/A")
+            delete_status = False
+        button_type = "Delete" if delete_status else "Gone"
+        button_phold_pdf = col3.empty()
+        do_action = button_phold_pdf.button(
+            button_type, key=i, on_click=delete_directory, args=(os.path.join(DATA_DIR, dir_name),))
 
-        colms = st.columns((4, 1, 1))
-        fields = ["Name", 'View', 'Delete']
-        for col, field_name in zip(colms, fields):
-            col.subheader(field_name)
-
-        i = 1
-        for dir_name in directories:
-            i += 1
-            col1, col2, col3 = st.columns((4, 1, 1))
-            col1.caption(dir_name)
-            file_path = os.path.join(DATA_DIR, dir_name, dir_name)
-            if os.path.isfile(file_path):
-                col2.button("View", key=file_path, on_click=display_pdf, args=(file_path,))
-                delete_status = True
-            else:
-                col2.write("N/A")
-                delete_status = False
-            button_type = "Delete" if delete_status else "Gone"
-            button_phold_pdf = col3.empty()
-            do_action = button_phold_pdf.button(
-                button_type, key=i, on_click=delete_directory, args=(os.path.join(DATA_DIR, dir_name),))
-
-           
-    with tab2:
-        uploaded_file = st.file_uploader("Upload a XML file", type="xml")
-        if uploaded_file is not None:
-            file_name = uploaded_file.name
-            directory_path = Path('data') / file_name
-            directory_path.mkdir(parents=True, exist_ok=True)
-
-            bytes_data = uploaded_file.read()
-            str_data = bytes_data.decode("utf-8")
-            json_data = xml_to_json(str_data)
-
-            json_file_path = directory_path / 'data.json'
-            with json_file_path.open('w') as f:
-                json.dump(json_data, f)
-            # tab2.success("It would take a while to index the books, please wait..!")
-            
-            documents = loader_json.load_data(json_file_path)
-            vector_index = process_data(documents)
-            vector_index.storage_context.persist(persist_dir=directory_path)
-            
-            tab2.success("Vector Index created successfully")
 
         # directories = [d for d in os.listdir(DATA_DIR) if os.path.isdir(os.path.join(DATA_DIR, d))]
         directories = [d for d in os.listdir(DATA_DIR) if os.path.isdir(os.path.join(DATA_DIR, d)) and d.endswith(".xml")]

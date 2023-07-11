@@ -3,3 +3,4 @@ openai
 langchain
 llama-index
 nltk
+PyPDF2

@@ -104,7 +104,7 @@ def main():
         # index.save_to_disk(os.path.join(dir_path, os.path.splitext(pdf_filename)[0] + ".json"))
         index.storage_context.persist(persist_dir=dir_path)
             
-        tab1.success("Index created successfully!")
+        st.success("Index created successfully!")
 
     DATA_DIR = "data"
     directories = [d for d in os.listdir(DATA_DIR) if os.path.isdir(os.path.join(DATA_DIR, d)) and d.endswith(".pdf")]

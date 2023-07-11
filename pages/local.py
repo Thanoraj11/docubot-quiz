@@ -3,14 +3,7 @@ import openai
 import os
 
 
-st.markdown("""
-<style>
-div[data-testid="stExpander"][aria-expanded="true"] > div:first-child {
-    background-color: #000fff;
-    color: white;
-}
-</style>
-    """, unsafe_allow_html=True)
+
 
 
 openai.api_key = os.getenv("OPENAI_API_KEY")

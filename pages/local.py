@@ -107,17 +107,17 @@ if len(st.session_state.conversations) > 0:
     current_conversation = st.session_state.conversations[-1]
     st.session_state.current_answer = st.text_area("Your answer:", st.session_state.current_answer)
 
-    if st.button('Submit Answer'):
-        user_answer = st.session_state.current_answer
-        current_conversation['user_answer'] = user_answer
-        # Grade the answer
-        correct, feedback = grade_answer(current_conversation['question'], current_conversation['user_answer'])
-        st.session_state.score += int(correct)
-        current_conversation['feedback'] = feedback
+if st.button('Submit Answer'):
+    user_answer = st.session_state.current_answer
+    current_conversation['user_answer'] = user_answer
+    # Grade the answer
+    correct, feedback = grade_answer(current_conversation['question'], current_conversation['user_answer'])
+    st.session_state.score += int(correct)
+    current_conversation['feedback'] = feedback
 
-        # Move to the next question
-        st.session_state.counter += 1
-        st.session_state.current_answer = ""
+    # Move to the next question
+    st.session_state.counter += 1
+    st.session_state.current_answer = ""
 
 for i, conversation in enumerate(reversed(st.session_state.conversations), start=1):
     with st.expander(f"Thread {len(st.session_state.conversations)-i+1}", expanded=(i==1)):

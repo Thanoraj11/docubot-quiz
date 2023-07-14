@@ -122,7 +122,8 @@ if st.button('Submit Answer'):
 
 for i, conversation in enumerate(reversed(st.session_state.conversations), start=1):
     with st.expander(f"Thread {len(st.session_state.conversations)-i+1}", expanded=(i==1)):
-        st.write(f"**Question**\n\n", f"\n{conversation['question']}")
+        if conversation['question'] is not None:
+            st.write(f"**Question**\n\n", f"\n{conversation['question']}")
         if conversation['user_answer'] is not None:
             st.write(f"**Your Answer**\n\n", f"\n{conversation['user_answer']}")
             st.write(f"**Feedback**\n\n", f"\n{conversation['feedback']}")

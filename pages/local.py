@@ -73,14 +73,14 @@ index_filenames_pdf = [f for f in os.listdir(DATA_DIR) if f.endswith(".pdf")]
 index_file = st.selectbox("Select a PDF file to load:", index_filenames_pdf)
 
 st.title("Quizbot Application")
-keywords = []
+st.session_state.keywords = []
 if st.button("Start Learning Session"):
     index_path = os.path.join(DATA_DIR, index_file)
     query_prompt = "Generate 10 important areas that are covered in this book"
     vector_resp = generate_answer_pdf(index_path, query_prompt)
     
-    keywords = vector_resp.split('\n')
-    st.sidebar.write(keywords)
+    s.session_state.keywords = vector_resp.split('\n')
+    st.sidebar.write(st.session_state.keywords)
     st.session_state.counter = 0
     st.session_state.score = 0
     st.session_state.conversations = []
@@ -88,8 +88,8 @@ if st.button("Start Learning Session"):
 
 st.write("Your current score:", st.session_state.score)
 
-if st.session_state.counter < len(keywords):
-    keyword = keywords[st.session_state.counter]
+if st.session_state.counter < len(st.session_state.keywords):
+    keyword = st.session_state.keywords[st.session_state.counter]
     question = generate_question(keyword)
     st.session_state.conversations.append({
         'keyword': keyword,

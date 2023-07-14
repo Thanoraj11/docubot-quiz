@@ -80,6 +80,7 @@ if st.button("Start Learning Session"):
     vector_resp = generate_answer_pdf(index_path, query_prompt)
     
     keywords = vector_resp.split('\n')
+    st.sidebar.write(keywords)
     st.session_state.counter = 0
     st.session_state.score = 0
     st.session_state.conversations = []

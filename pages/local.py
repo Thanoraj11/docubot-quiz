@@ -91,7 +91,7 @@ st.write(st.session_state.keywords)
 st.write("Your current score:", st.session_state.score)
 
 
-if st.session_state.counter < len(st.session_state.keywords):
+if st.session_state.counter < len(st.session_state.keywords) or st.session_state.counter:
     keyword = st.session_state.keywords[st.session_state.counter]
     index_path = os.path.join("data", index_file)
     prompt = f"Generate a question from this booc about the the following topic : {keyword}"

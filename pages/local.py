@@ -109,11 +109,10 @@ if len(st.session_state.conversations) > 0:
 
     if st.button('Submit Answer'):
         user_answer = st.session_state.current_answer
-
-        # Grade the answer
-        correct, feedback = grade_answer(current_conversation['question'], user_answer)
-        st.session_state.score += int(correct)
         current_conversation['user_answer'] = user_answer
+        # Grade the answer
+        correct, feedback = grade_answer(current_conversation['question'], current_conversation['user_answer'])
+        st.session_state.score += int(correct)
         current_conversation['feedback'] = feedback
 
         # Move to the next question

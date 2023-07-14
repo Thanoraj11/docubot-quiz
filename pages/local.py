@@ -86,7 +86,7 @@ if st.button("Start Learning Session"):
     st.session_state.conversations = []
     st.session_state.current_answer = ""
 
-st.write(st.session_state.keywords)
+# st.write(st.session_state.keywords)
 
 st.write("Your current score:", st.session_state.score)
 

@@ -72,7 +72,7 @@ index_filenames_pdf = [f for f in os.listdir(DATA_DIR) if f.endswith(".pdf")]
 
 index_file = st.selectbox("Select a PDF file to load:", index_filenames_pdf)
 
-st.title("Quizbot Application")
+st.title("QuizBOT Application")
 if "keywords" not in st.session_state:
     st.session_state.keywords = []
 if st.button("Start Learning Session"):

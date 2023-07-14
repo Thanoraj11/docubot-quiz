@@ -82,7 +82,7 @@ if st.button("Start Learning Session"):
     
     st.session_state.keywords = vector_resp.split('\n')
     st.sidebar.write(st.session_state.keywords)
-    st.session_state.counter = 0
+    st.session_state.counter = 2
     st.session_state.score = 0
     st.session_state.conversations = []
     st.session_state.current_answer = ""

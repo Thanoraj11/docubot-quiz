@@ -94,7 +94,7 @@ st.write("Your current score:", st.session_state.score)
 if st.session_state.counter < len(st.session_state.keywords) or st.session_state.counter:
     keyword = st.session_state.keywords[st.session_state.counter]
     index_path = os.path.join("data", index_file)
-    prompt = f"Generate a question from this booc about the the following topic : {keyword}"
+    prompt = f"Generate a question from this book from the the following topic : {keyword}"
     question = str(generate_answer_pdf(index_path,prompt))
     st.write(f"### {question}")
     st.session_state.conversations.append({
